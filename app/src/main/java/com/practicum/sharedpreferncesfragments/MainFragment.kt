@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.practicum.sharedpreferncesfragments.databinding.FragmentFirstBinding
+import com.practicum.sharedpreferncesfragments.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+    lateinit var binding : FragmentMainBinding
     var sharedPreferences: SharedPreferences? = null
     var text : String? = ""
 
@@ -27,7 +28,12 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentFirstBinding.inflate(inflater,container,false)
+        binding = FragmentMainBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.savedText.text = text
         binding.button.setOnClickListener {
             val newText = binding.edit.text
@@ -36,7 +42,9 @@ class MainFragment : Fragment() {
             binding.savedText.text = newText
         }
 
-        return binding.root
+        binding.nextButton.setOnClickListener {
+            navigator().showSecondFragment()
+        }
     }
 
     fun saveText (text: String){
